@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day</title>
+    <style>
+        body {
+            background-color: #ffd9e6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #gifContainer {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #ff007f;
+        }
+
+        .button-container {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 1.2em;
+            background-color: #ff007f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #ff0055;
+        }
+
+        #successMessage {
+            font-size: 2em;
+            color: #ff0055;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #heartContainer {
+            display: none;
+            margin-top: 20px;
+        }
+
+        /* Heart image */
+        .heart-img {
+            width: 150px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="gifContainer">
+        <img src="please.gif" alt="Valentine's GIF">
+    </div>
+
+    <!-- Add background music -->
+    <audio controls autoplay loop style="display: none;" id="backgroundMusic">
+        <source src="love2.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <h1 id="title">Will you be my valentine?</h1>
+
+    <div class="button-container">
+        <button class="button" onclick="handleYesClick()">Yes</button>
+        <button class="button" id="noButton" onclick="handleNoClick()">No</button>
+    </div>
+
+    <div id="successMessage"></div>
+
+    <div id="heartContainer">
+        <img src="flowers.gif" alt="heart" class="heart-img">
+    </div>
+
+    <script>
+        // Array to store used texts
+        let usedTexts = [];
+
+        function handleYesClick() {
+            // Remove the title
+            const title = document.getElementById('title');
+            title.style.display = 'none';
+
+            // Display a success message in big and dark pink
+            const successMessage = document.getElementById('successMessage');
+            successMessage.innerText = "YAYYYY! See you on Feb 14, my pretty girl <3";
+
+            // Remove the buttons
+            const buttonContainer = document.querySelector('.button-container');
+            buttonContainer.style.display = 'none';
+
+            // Display the heart
+            const heartContainer = document.getElementById('heartContainer');
+            heartContainer.style.display = 'block';
+
+            // Update the GIF source to "success.gif"
+            const gifContainer = document.getElementById('gifContainer');
+            gifContainer.innerHTML = '<img src="success.gif" alt="Success GIF">';
+
+            // Do not pause background music
+        }
+
+        function handleNoClick() {
+            const noButton = document.getElementById('noButton');
+
+            // Move to a random position
+            const randomX = Math.random() * (window.innerWidth - noButton.offsetWidth);
+            const randomY = Math.random() * (window.innerHeight - noButton.offsetHeight);
+            noButton.style.position = 'absolute';
+            noButton.style.left = `${randomX}px`;
+            noButton.style.top = `${randomY}px`;
+
+            // Reset the usedTexts array when all options are exhausted
+            if (usedTexts.length === 24) {
+                usedTexts = [];
+            }
+
+            // Change text to one of the remaining options
+            const remainingTexts = [
+                "But, but, but.....",
+                "You gonna regret it",
+                "I'm a pretty nice guy tbh",
+                "You're being mean :(",
+                "*Sigh....",
+                "You will click yes eventually I guess",
+                "You sure?",
+                "Really sure?",
+                "Last chance",
+                "Think about it one more time",
+                "Is that your final answer?",
+                "Change of heart?",
+                "You sure?",
+                "Really sure?",
+                "Last chance",
+                "Think about it one more time",
+                "Is that your final answer?",
+                "Change of heart?",
+                "You sure?",
+                "Really sure?",
+                "Last chance",
+                "Think about it one more time",
+                "Is that your final answer?",
+                "Change of heart?"
+            ].filter(text => !usedTexts.includes(text));
+
+            // Randomly select a text from the remaining options
+            const randomIndex = Math.floor(Math.random() * remainingTexts.length);
+            const selectedText = remainingTexts[randomIndex];
+            noButton.textContent = selectedText;
+
+            // Add the used text to the array
+            usedTexts.push(selectedText);
+
+            // Increase the size of the "Yes" button
+            const yesButton = document.querySelector('.button');
+            const currentFontSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
+            yesButton.style.fontSize = `${currentFontSize * 1.25}px`; // Increase by 25%
+        }
+    </script>
+
+</body>
+
+</html>
